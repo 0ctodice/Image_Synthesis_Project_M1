@@ -1,67 +1,108 @@
 #include <object.h>
 
-void draw_cylinder_points(Shape *obj)
+void draw_cylinder_points(Shape *obj, G3Xvector scale_factor)
 {
+    double dxy = (scale_factor.x + scale_factor.y) / 2.;
+    int mpas = 1. / dxy;
+    mpas = MAX(1, mpas);
+
     glPointSize(1);
     glBegin(GL_POINTS);
-    for (int i = 0; i < (int)(2 * (obj->n1 * obj->n3) + (obj->n1 * obj->n2)); i++)
+    for (int i = 0; i < (int)(2 * (obj->n1 * obj->n3) + (obj->n1 * obj->n2)) - mpas; i += mpas)
     {
         normVrtx3dv(obj->norm, obj->vrtx, i);
     }
     glEnd();
 }
 
-void draw_cylinder_quads(Shape *obj)
+void draw_cylinder_quads(Shape *obj, G3Xvector scale_factor)
 {
     int i, j;
     int Nm = obj->n1;
     int Np = obj->n2;
     int Nn = obj->n3;
 
+    double dxy = (scale_factor.x + scale_factor.y) / 2.;
+    int mpas = 1. / dxy;
+    mpas = MAX(1, mpas);
+    int ppas = 1. / scale_factor.z;
+    ppas = MAX(1, ppas);
+    int npas = mpas;
+
     glPointSize(1);
     glBegin(GL_QUADS);
-    for (i = 0; i < Nn - 1; i++)
+    for (i = 0; i < Nn - npas; i += npas)
     {
-        for (j = 0; j < Nm - 1; j++)
+        for (j = 0; j < Nm - mpas; j += mpas)
         {
+            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
+            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + 1);
+            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + 1);
+            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j);
+
             normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + 1);
-            normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + 1);
-            normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j);
+            normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + mpas);
+            normVrtx3dv(obj->norm, obj->vrtx, (i + npas) * Nm + j + mpas);
+            normVrtx3dv(obj->norm, obj->vrtx, (i + npas) * Nm + j);
+
+            // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j);
+            // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j + 1);
+            // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm + j + 1);
+            // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm + j);
 
             normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j + 1);
-            normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm + j + 1);
-            normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm + j);
+            normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j + mpas);
+            normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + npas) * Nm + j + mpas);
+            normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + npas) * Nm + j);
         }
+
+        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
+        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm);
+        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm);
+        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j);
 
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j);
+        normVrtx3dv(obj->norm, obj->vrtx, (i + npas) * Nm);
+        normVrtx3dv(obj->norm, obj->vrtx, (i + npas) * Nm + j);
+
+        // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j);
+        // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm);
+        // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm);
+        // normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm + j);
 
         normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j);
         normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + 1) * Nm + j);
+        normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + npas) * Nm);
+        normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (i + npas) * Nm + j);
     }
 
     int start = 2 * (Nm * Nn);
 
-    for (i = 0; i < Np - 1; i++)
+    for (i = 0; i < Np - ppas; i += ppas)
     {
-        for (j = 0; j < Nm - 1; j++)
+        for (j = 0; j < Nm - mpas; j += mpas)
         {
+            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
+            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + 1 + start);
+            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + 1 + start);
+            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + start);
+
             normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
-            normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + 1 + start);
-            normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + 1 + start);
-            normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + start);
+            normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + mpas + start);
+            normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j + mpas + start);
+            normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j + start);
         }
+
+        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
+        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + start);
+        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + start);
+        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + start);
 
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm + start);
-        normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + start);
-        normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + start);
+        normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + start);
+        normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j + start);
     }
 
     glEnd();
@@ -76,7 +117,7 @@ Shape *init_cylinder()
 
     obj->n1 = MAXRES * PI;
     obj->n2 = (obj->n1) / 2.;
-    obj->n3 = MAXRES;
+    obj->n3 = MAXRES * PI;
 
     if (NULL == (obj->vrtx = calloc(2 * (obj->n1 * obj->n3) + (obj->n1 * obj->n2), sizeof(G3Xpoint))))
         return NULL;

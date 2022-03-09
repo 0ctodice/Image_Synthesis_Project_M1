@@ -1,18 +1,22 @@
 #include <object.h>
 #include <math.h>
 
-void draw_cube_points(Shape *obj)
+void draw_cube_points(Shape *obj, G3Xvector scale_factor)
 {
+    double dxy = (scale_factor.x + scale_factor.y) / 2.;
+    int mpas = 1. / dxy;
+    mpas = MAX(1, mpas);
+
     glPointSize(1);
     glBegin(GL_POINTS);
-    for (int i = 0; i < (int)(6 * (obj->n1 * obj->n2)); i++)
+    for (int i = 0; i < (int)(6 * (obj->n1 * obj->n2)) - mpas; i += mpas)
     {
         normVrtx3dv(obj->norm, obj->vrtx, i);
     }
     glEnd();
 }
 
-void draw_cube_quads(Shape *obj)
+void draw_cube_quads(Shape *obj, G3Xvector scale_factor)
 {
     int i, j;
     int Nm = obj->n1;

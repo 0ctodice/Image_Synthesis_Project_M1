@@ -8,11 +8,7 @@ Shape *cylinder_can;
 Shape *cone_can;
 Shape *cube_can;
 
-static double alpha = 1.;
-static double ambi = 0.25;
-static double diff = 0.5;
-static double spec = 0.5;
-static double shine = 0.5;
+SceneTree tree;
 
 /* la fonction d'initialisation : appelée 1 seule fois, au début */
 static void init(void)
@@ -22,27 +18,33 @@ static void init(void)
   cylinder_can = load_cylinder();
   cone_can = load_cone();
   cube_can = load_cube();
+
+  // tree = malloc(sizeof(SceneTree));
 }
 
 /* la fonction de contrôle : appelée 1 seule fois, juste après <init> */
 static void ctrl(void)
 {
+  // tree->col = (G3Xcolor){1., 0.3, 0., 1.};
+  // tree->mat[0] = 0.25;
+  // tree->mat[1] = 0.5;
+  // tree->mat[2] = 0.5;
+  // tree->mat[3] = 0.5;
+  // tree->instance = torus_can;
 }
 
 /* la fonction de dessin : appelée en boucle */
 static void draw(void)
 {
-  g3x_Material((G3Xcolor){1., 0., 0., 1.}, ambi, diff, spec, shine, alpha);
-  // sphere_can->draw_quads(sphere_can);
-  // torus_can->draw_quads(torus_can);
-  // cylinder_can->draw_quads(cylinder_can);
-  // cone_can->draw_quads(cone_can);
-  cube_can->draw_quads(cube_can);
+  // draw_tree(tree);
+  g3x_Material((G3Xcolor){1., 0.3, 0., 1.}, 0.25, 0.5, 0.5, 0.5, 1.);
+  cube_can->draw_points(cube_can, (G3Xvector){0.2, 0.2, 0.2});
 }
 
 /* la fonction d'animation (facultatif) */
 static void anim(void)
 {
+  free(tree);
   free(sphere_can);
   free(torus_can);
   free(cylinder_can);
