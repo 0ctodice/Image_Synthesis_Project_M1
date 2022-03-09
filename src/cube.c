@@ -110,7 +110,7 @@ Shape *init_cube()
         return NULL;
     }
 
-    obj->n1 = MAXRES * PI;
+    obj->n1 = MAXRES * PI / 2.;
     obj->n2 = obj->n1;
     obj->n3 = 1;
 
