@@ -1,0 +1,5 @@
+# compiled file
+*.o
+
+#final exe
+projet
