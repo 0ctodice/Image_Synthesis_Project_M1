@@ -38,7 +38,7 @@ static void draw(void)
 {
   // draw_tree(tree);
   g3x_Material((G3Xcolor){0., 1., 0., 1.}, 0.25, 0.5, 0.5, 0.5, 1.);
-  sphere_can->draw_quads(sphere_can, (G3Xvector){0.1, 0.1, 0.1});
+  cube_can->draw_quads(cube_can, (G3Xvector){0.05, 0.05, 0.05});
 }
 
 /* la fonction d'animation (facultatif) */

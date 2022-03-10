@@ -28,7 +28,7 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor)
     mpas = MAX(1, mpas);
     int ppas = 1. / scale_factor.z;
     ppas = MAX(1, ppas);
-    int npas = mpas;
+    int npas = ppas;
 
     glPointSize(1);
     glBegin(GL_QUADS);
@@ -38,10 +38,6 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor)
 
         for (j = 0; j < Nm - mpas; j += mpas)
         {
-            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
-            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + 1);
-            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + 1);
-            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j);
 
             normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
             normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + mpas);
@@ -49,16 +45,24 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor)
             normVrtx3dv(obj->norm, obj->vrtx, (i + npas) * Nm + j);
         }
 
-        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
-        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm);
-        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm);
-        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j);
-
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm);
         normVrtx3dv(obj->norm, obj->vrtx, (i + npas) * Nm);
         normVrtx3dv(obj->norm, obj->vrtx, (i + npas) * Nm + j);
     }
+
+    for (j = 0; j < Nm - mpas; j += mpas)
+    {
+        normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
+        normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + mpas);
+        normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm + j + mpas);
+        normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm + j);
+    }
+
+    normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
+    normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm + j);
+    normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm);
+    normVrtx3dv(obj->norm, obj->vrtx, (Nn - npas) * Nm);
 
     int start = Nm * Nn;
 
@@ -67,10 +71,6 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor)
 
         for (j = 0; j < (int)Nm - mpas; j += mpas)
         {
-            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
-            // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + 1 + start);
-            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + 1 + start);
-            // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + start);
 
             normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
             normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + mpas + start);
@@ -78,16 +78,24 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor)
             normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j + start);
         }
 
-        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
-        // normVrtx3dv(obj->norm, obj->vrtx, i * Nm + start);
-        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + start);
-        // normVrtx3dv(obj->norm, obj->vrtx, (i + 1) * Nm + j + start);
-
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
         normVrtx3dv(obj->norm, obj->vrtx, i * Nm + start);
         normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + start);
         normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j + start);
     }
+
+    for (j = 0; j < Nm - mpas; j += mpas)
+    {
+        normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
+        normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + mpas + start);
+        normVrtx3dv(obj->norm, obj->vrtx, (Np - 1) * Nm + j + mpas + start);
+        normVrtx3dv(obj->norm, obj->vrtx, (Np - 1) * Nm + j + start);
+    }
+
+    normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
+    normVrtx3dv(obj->norm, obj->vrtx, (Np - 1) * Nm + j + start);
+    normVrtx3dv(obj->norm, obj->vrtx, (Np - 1) * Nm + start);
+    normVrtx3dv(obj->norm, obj->vrtx, i * Nm + start);
 
     glEnd();
 }

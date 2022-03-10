@@ -32,81 +32,31 @@ void draw_cube_quads(Shape *obj, G3Xvector scale_factor)
     glBegin(GL_QUADS);
     for (i = 0; i < Np - ppas; i += ppas)
     {
-
-        for (j = 0; j < Nm - mpas; j += mpas)
+        for (int k = 0; k < 1; k++)
         {
-            // BOTTOM
-            normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j);
+            for (j = 0; j < Nm - mpas; j += mpas)
+            {
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm + j);
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm + j + mpas);
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (i + ppas) * Nm + j + mpas);
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (i + ppas) * Nm + j);
 
-            // TOP
-            normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + i * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + (i + ppas) * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + (i + ppas) * Nm + j);
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm + j);
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm + j + mpas);
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (Np - 1) * Nm + j + mpas);
+                normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (Np - 1) * Nm + j);
+            }
 
-            // BACK
-            normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + i * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + (i + ppas) * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + (i + ppas) * Nm + j);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm + j);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (i + ppas) * Nm);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (i + ppas) * Nm + j);
 
-            // FRONT
-            normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + i * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + (i + ppas) * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + (i + ppas) * Nm + j);
-
-            // RIGHT
-            normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + i * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + (i + ppas) * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + (i + ppas) * Nm + j);
-
-            // LEFT
-            normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + i * Nm + j);
-            normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + i * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + (i + ppas) * Nm + j + mpas);
-            normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + (i + ppas) * Nm + j);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm + j);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (Np - 1) * Nm + j);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + (Np - 1) * Nm);
+            normVrtx3dv(obj->norm, obj->vrtx, k * (Np * Nm) + i * Nm);
         }
-
-        // BOTTOM
-        normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
-        normVrtx3dv(obj->norm, obj->vrtx, i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (i + ppas) * Nm + j);
-
-        // TOP
-        normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + i * Nm + j);
-        normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + (i + ppas) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, (Np * Nm) + (i + ppas) * Nm + j);
-
-        // BACK
-        normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + i * Nm + j);
-        normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + (i + ppas) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 2 * (Np * Nm) + (i + ppas) * Nm + j);
-
-        // FRONT
-        normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + i * Nm + j);
-        normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + (i + ppas) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 3 * (Np * Nm) + (i + ppas) * Nm + j);
-
-        // RIGHT
-        normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + i * Nm + j);
-        normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + (i + ppas) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 4 * (Np * Nm) + (i + ppas) * Nm + j);
-
-        // LEFT
-        normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + i * Nm + j);
-        normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + i * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + (i + ppas) * Nm);
-        normVrtx3dv(obj->norm, obj->vrtx, 5 * (Np * Nm) + (i + ppas) * Nm + j);
     }
     glEnd();
 }
