@@ -27,7 +27,7 @@ void draw_cylinder_quads(Shape *obj, G3Xvector scale_factor)
     mpas = MAX(1, mpas);
     int ppas = 1. / scale_factor.z;
     ppas = MAX(1, ppas);
-    int npas = mpas;
+    int npas = ppas;
 
     glPointSize(1);
     glBegin(GL_QUADS);
@@ -124,7 +124,7 @@ Shape *init_cylinder()
 
     obj->n1 = MAXRES * PI;
     obj->n2 = (obj->n1) / 2.;
-    obj->n3 = MAXRES * PI;
+    obj->n3 = MAXRES;
 
     if (NULL == (obj->vrtx = calloc(2 * (obj->n1 * obj->n3) + (obj->n1 * obj->n2), sizeof(G3Xpoint))))
         return NULL;
