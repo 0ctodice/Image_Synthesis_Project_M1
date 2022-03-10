@@ -15,17 +15,17 @@ void free_object(Shape *obj)
 
 void draw_tree(SceneTree tree)
 {
-    // Node *node = tree;
-    // while (node != NULL)
-    // {
-    //     glPushMatrix();
-    //     g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
-    //     // glMultMatrixd(node->Md.m);
-    //     if (node->instance != NULL)
-    //         node->instance->draw_quads(node->instance);
-    //     if (node->down != NULL)
-    //         draw_tree(node->down);
-    //     glPopMatrix();
-    //     node = node->next;
-    // }
+    Node *node = tree;
+    while (node != NULL)
+    {
+        glPushMatrix();
+        g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
+        // glMultMatrixd(node->Md.m);
+        if (node->instance != NULL)
+            node->instance->draw_quads(node->instance, node->scale_factor);
+        if (node->down != NULL)
+            draw_tree(node->down);
+        glPopMatrix();
+        node = node->next;
+    }
 }
