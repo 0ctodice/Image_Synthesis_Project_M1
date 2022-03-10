@@ -8,7 +8,7 @@ Shape *cylinder_can;
 Shape *cone_can;
 Shape *cube_can;
 
-SceneTree tree;
+// SceneTree tree;
 
 /* la fonction d'initialisation : appelée 1 seule fois, au début */
 static void init(void)
@@ -37,19 +37,19 @@ static void ctrl(void)
 static void draw(void)
 {
   // draw_tree(tree);
-  g3x_Material((G3Xcolor){1., 0.3, 0., 1.}, 0.25, 0.5, 0.5, 0.5, 1.);
-  cube_can->draw_points(cube_can, (G3Xvector){0.2, 0.2, 0.2});
+  g3x_Material((G3Xcolor){0., 1., 0., 1.}, 0.25, 0.5, 0.5, 0.5, 1.);
+  sphere_can->draw_quads(sphere_can, (G3Xvector){0.1, 0.1, 0.1});
 }
 
 /* la fonction d'animation (facultatif) */
 static void anim(void)
 {
-  free(tree);
+  // free(tree);
   free(sphere_can);
   free(torus_can);
   free(cylinder_can);
   free(cone_can);
-  free(cone_can);
+  free(cube_can);
 }
 
 /* la fonction de sortie  (facultatif) -- atexit() */
