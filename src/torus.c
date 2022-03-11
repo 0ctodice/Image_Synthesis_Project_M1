@@ -84,6 +84,7 @@ Shape *init_torus()
 
     return obj;
 }
+
 Shape *load_torus()
 {
     Shape *obj;

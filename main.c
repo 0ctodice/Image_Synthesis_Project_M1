@@ -8,7 +8,7 @@ Shape *cylinder_can;
 Shape *cone_can;
 Shape *cube_can;
 
-SceneTree tree;
+Node *node;
 
 double scale = 0.5;
 
@@ -20,45 +20,43 @@ static void init(void)
   cylinder_can = load_cylinder();
   cone_can = load_cone();
   cube_can = load_cube();
-
-  tree = malloc(sizeof(SceneTree));
+  node = init_node();
 }
 
 /* la fonction de contrôle : appelée 1 seule fois, juste après <init> */
 static void ctrl(void)
 {
-  tree->col = (G3Xcolor){1., 0.3, 0., 1.};
-  tree->mat[0] = 0.25;
-  tree->mat[1] = 0.5;
-  tree->mat[2] = 0.5;
-  tree->mat[3] = 0.5;
-  tree->instance = torus_can;
+  node->col = (G3Xcolor){202. / 255., 110. / 255., 20. / 255., 1.};
+  node->mat[0] = 0.25;
+  node->mat[1] = 0.5;
+  node->mat[2] = 0.5;
+  node->mat[3] = 0.5;
+  node->instance = torus_can;
+  *(node->Md) = g3x_Homothetie3d(1., 0.5, 0.5);
 
-  g3x_SetScrollWidth(10);
+  g3x_SetScrollWidth(11);
 
   int id;
-
-  id = g3x_CreateScrollv_d("ray", &scale, 0.01, 01., 1., "scale factor");
+  id = g3x_CreateScrollv_d("step", &scale, 0.01, 0.5, 1., "scale factor");
   g3x_SetScrollColor(id, G3Xrb_c);
 }
 
 /* la fonction de dessin : appelée en boucle */
 static void draw(void)
 {
-  // draw_tree(tree);
-  g3x_Material((G3Xcolor){0., 1., 0., 1.}, 0.25, 0.5, 0.5, 0.5, 1.);
-  cone_can->draw_quads(cone_can, (G3Xvector){scale, scale, scale});
+  node->scale_factor = (G3Xvector){scale, scale, scale};
+  draw_node(node);
 }
 
 /* la fonction d'animation (facultatif) */
 static void anim(void)
 {
-  free(tree);
-  free(sphere_can);
-  free(torus_can);
-  free(cylinder_can);
-  free(cone_can);
-  free(cube_can);
+  free_node(node);
+  free_object(sphere_can);
+  free_object(torus_can);
+  free_object(cylinder_can);
+  free_object(cone_can);
+  free_object(cube_can);
 }
 
 /* la fonction de sortie  (facultatif) -- atexit() */
@@ -72,7 +70,7 @@ static void quit(void)
 int main(int argc, char **argv)
 {
   /* creation de la fenetre - titre et tailles (pixels) */
-  g3x_InitWindow("Image Synthesis", WWIDTH, WHEIGHT);
+  g3x_InitWindow(argv[0], WWIDTH, WHEIGHT);
 
   g3x_SetInitFunction(init); /* fonction d'initialisation */
   g3x_SetCtrlFunction(ctrl); /* fonction de contrôle      */
