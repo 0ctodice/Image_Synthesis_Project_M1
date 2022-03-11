@@ -1,3 +1,22 @@
+///////////////////////////////////////////////////////////////////////////
+//
+// ------------------------------------------------------------------------
+//   _____      _            _ _
+//  |  _  |    | |          | (_)
+//  | |/' | ___| |_ ___   __| |_  ___ ___
+//  |  /| |/ __| __/ _ \ / _` | |/ __/ _ \
+//  \ |_/ / (__| || (_) | (_| | | (_|  __/
+//   \___/ \___|\__\___/ \__,_|_|\___\___|
+//
+// ------------------------------------------------------------------------
+//
+//  Projet de synthèse d'image Master 1 Informatique
+//  ~ Thomas DUMONT A.K.A 0ctodice
+//
+// ------------------------------------------------------------------------
+//
+///////////////////////////////////////////////////////////////////////////
+
 #include <object.h>
 /* tailles de la fenêtre (en pixel) */
 static int WWIDTH = 512, WHEIGHT = 512;
@@ -8,9 +27,66 @@ Shape *cylinder_can;
 Shape *cone_can;
 Shape *cube_can;
 
-Node *node;
+Node *table;
 
-double scale = 0.5;
+Node *plateau;
+Node *pied1;
+Node *pied2;
+Node *pied3;
+Node *pied4;
+
+double scale = 0.05;
+
+Node *gl_pied(double x, double y, double z, Node *initNode)
+{
+  Node *pied = init_node();
+
+  pied->scale_factor = initNode->scale_factor;
+
+  *(pied->Md) = *(initNode->Md);
+  *(pied->Md) = g3x_Mat_x_Mat(*(pied->Md), g3x_Homothetie3d(0.12, 0.12, 0.99));
+  pied->col = (G3Xcolor){0.30, 0.20, 0.10, 1.};
+  pied->mat[0] = 0.5;
+  pied->mat[1] = 0.75;
+  pied->mat[2] = pied->mat[3] = 0.;
+  pied->instance = cylinder_can;
+
+  *(pied->Md) = g3x_Mat_x_Mat(*(pied->Md), g3x_Translation3d(x, y, z));
+
+  return pied;
+}
+
+void gl_table()
+{
+  // Noeud Principal
+  table = init_node();
+  *(table->Md) = g3x_Mat_x_Mat(*(table->Md), g3x_Homothetie3d(0.75, 0.75, 0.75));
+
+  // Plateau
+  plateau = init_node();
+  *(plateau->Md) = *(table->Md);
+  *(plateau->Md) = g3x_Mat_x_Mat(*(plateau->Md), g3x_Translation3d(0., 0., 1.));
+  *(plateau->Md) = g3x_Mat_x_Mat(*(plateau->Md), g3x_Translation3d(0., 0., -0.1));
+  *(plateau->Md) = g3x_Mat_x_Mat(*(plateau->Md), g3x_Homothetie3d(1.8, 1., 0.1));
+  plateau->col = (G3Xcolor){0.50, 0.40, 0.20, 1.};
+  plateau->mat[0] = 0.5;
+  plateau->mat[1] = 0.65;
+  plateau->mat[2] = plateau->mat[3] = 0.5;
+  plateau->instance = cube_can;
+  plateau->scale_factor = table->scale_factor;
+
+  // Pieds
+  pied1 = gl_pied(+12.5, +5.5, -0.19, table);
+  pied2 = gl_pied(+12.5, -5.5, -0.19, table);
+  pied3 = gl_pied(-12.5, -5.5, -0.19, table);
+  pied4 = gl_pied(-12.5, +5.5, -0.19, table);
+
+  table->down = plateau;
+  plateau->next = pied1;
+  pied1->next = pied2;
+  pied2->next = pied3;
+  pied3->next = pied4;
+}
 
 /* la fonction d'initialisation : appelée 1 seule fois, au début */
 static void init(void)
@@ -20,20 +96,12 @@ static void init(void)
   cylinder_can = load_cylinder();
   cone_can = load_cone();
   cube_can = load_cube();
-  node = init_node();
+  gl_table();
 }
 
 /* la fonction de contrôle : appelée 1 seule fois, juste après <init> */
 static void ctrl(void)
 {
-  node->col = (G3Xcolor){202. / 255., 110. / 255., 20. / 255., 1.};
-  node->mat[0] = 0.25;
-  node->mat[1] = 0.5;
-  node->mat[2] = 0.5;
-  node->mat[3] = 0.5;
-  node->instance = torus_can;
-  *(node->Md) = g3x_Homothetie3d(1., 0.5, 0.5);
-
   g3x_SetScrollWidth(11);
 
   int id;
@@ -44,14 +112,19 @@ static void ctrl(void)
 /* la fonction de dessin : appelée en boucle */
 static void draw(void)
 {
-  node->scale_factor = (G3Xvector){scale, scale, scale};
-  draw_node(node);
+  *(table->scale_factor) = (G3Xvector){scale, scale, scale};
+  draw_node(table);
 }
 
 /* la fonction d'animation (facultatif) */
 static void anim(void)
 {
-  free_node(node);
+  free_node(pied1);
+  free_node(pied2);
+  free_node(pied3);
+  free_node(pied4);
+  free_node(plateau);
+  free_node(table);
   free_object(sphere_can);
   free_object(torus_can);
   free_object(cylinder_can);

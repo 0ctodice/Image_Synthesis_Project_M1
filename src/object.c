@@ -29,6 +29,11 @@ Node *init_node()
     if (NULL == (node->Md = malloc(sizeof(G3Xhmat))))
         return NULL;
 
+    if (NULL == (node->scale_factor = malloc(sizeof(G3Xvector))))
+        return NULL;
+
+    *(node->Md) = g3x_Identity();
+
     return node;
 }
 
@@ -48,7 +53,7 @@ void draw_node(Node *node)
         g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
         glMultMatrixd(node->Md->m);
         if (node->instance != NULL)
-            node->instance->draw_quads(node->instance, node->scale_factor);
+            node->instance->draw_quads(node->instance, *(node->scale_factor));
         if (node->down != NULL)
             draw_node(node->down);
         glPopMatrix();
