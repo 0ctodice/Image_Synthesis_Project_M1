@@ -29,24 +29,26 @@ typedef struct _shape_
     size_t n1, n2, n3;
     G3Xpoint *vrtx;
     G3Xvector *norm;
-    void (*draw_points)(struct _shape_ *, G3Xvector scale_factor); /*Affichage par point*/
-    void (*draw_quads)(struct _shape_ *, G3Xvector scale_factor);  /*affichage par facette*/
+    void (*draw_points)(struct _shape_ *, G3Xvector scale_factor);
+    void (*draw_quads)(struct _shape_ *, G3Xvector scale_factor);
 } Shape;
 
 typedef struct _node_
 {
-    struct _node_ *down, *next; /*chaînage*/
-    G3Xhmat *Md;                /*matrice de transformation directe*/
-    G3Xcolor col;               /*couleur RGBA*/
-    double mat[4];              /*4 réels dans [0, 1] : (ambi, diff, spec, shine)*/
-    G3Xvector *scale_factor;    /*facteur d'échelles locaux x, y, z*/
-    Shape *instance;            /*une éventuelle instance d'objet*/
+    struct _node_ *down, *next;
+    G3Xhmat *Md;
+    G3Xcolor col;
+    double mat[4];
+    G3Xvector *scale_factor;
+    Shape *instance;
 } Node;
 
 void normVrtx3dv(G3Xvector *N, G3Xpoint *P, int i);
 void free_object(Shape *obj);
 
 Node *init_node();
+void set_down_or_next(Node *node, Node *down, bool dOrN);
+void scaled_Homothetie3d(Node *node, double x, double y, double z);
 void draw_node(Node *node);
 void free_node(Node *node);
 
