@@ -29,12 +29,6 @@ Shape *cube_can;
 
 Node *table;
 
-Node *plateau;
-Node *pied1;
-Node *pied2;
-Node *pied3;
-Node *pied4;
-
 double scale = 0.05;
 
 Node *gl_pied(double x, double y, double z, Node *initNode)
@@ -56,14 +50,14 @@ Node *gl_pied(double x, double y, double z, Node *initNode)
   return pied;
 }
 
-void gl_table()
+Node *gl_table()
 {
   // Noeud Principal
-  table = init_node();
+  Node *table = init_node();
   *(table->Md) = g3x_Mat_x_Mat(*(table->Md), g3x_Homothetie3d(0.75, 0.75, 0.75));
 
   // Plateau
-  plateau = init_node();
+  Node *plateau = init_node();
   *(plateau->Md) = *(table->Md);
   *(plateau->Md) = g3x_Mat_x_Mat(*(plateau->Md), g3x_Translation3d(0., 0., 1.));
   *(plateau->Md) = g3x_Mat_x_Mat(*(plateau->Md), g3x_Translation3d(0., 0., -0.1));
@@ -76,16 +70,18 @@ void gl_table()
   plateau->scale_factor = table->scale_factor;
 
   // Pieds
-  pied1 = gl_pied(+12.5, +5.5, -0.19, table);
-  pied2 = gl_pied(+12.5, -5.5, -0.19, table);
-  pied3 = gl_pied(-12.5, -5.5, -0.19, table);
-  pied4 = gl_pied(-12.5, +5.5, -0.19, table);
+  Node *pied1 = gl_pied(+12.5, +5.5, -0.19, table);
+  Node *pied2 = gl_pied(+12.5, -5.5, -0.19, table);
+  Node *pied3 = gl_pied(-12.5, -5.5, -0.19, table);
+  Node *pied4 = gl_pied(-12.5, +5.5, -0.19, table);
 
   table->down = plateau;
   plateau->next = pied1;
   pied1->next = pied2;
   pied2->next = pied3;
   pied3->next = pied4;
+
+  return table;
 }
 
 /* la fonction d'initialisation : appelée 1 seule fois, au début */
@@ -96,7 +92,7 @@ static void init(void)
   cylinder_can = load_cylinder();
   cone_can = load_cone();
   cube_can = load_cube();
-  gl_table();
+  table = gl_table();
 }
 
 /* la fonction de contrôle : appelée 1 seule fois, juste après <init> */
@@ -119,11 +115,6 @@ static void draw(void)
 /* la fonction d'animation (facultatif) */
 static void anim(void)
 {
-  free_node(pied1);
-  free_node(pied2);
-  free_node(pied3);
-  free_node(pied4);
-  free_node(plateau);
   free_node(table);
   free_object(sphere_can);
   free_object(torus_can);

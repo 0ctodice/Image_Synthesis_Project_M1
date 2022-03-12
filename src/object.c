@@ -58,22 +58,25 @@ Node *init_node()
 
 void free_node(Node *node)
 {
-    free(node->down);
-    free(node->next);
-    free(node->Md);
+    if (node->instance)
+        free_object(node->instance);
+    if (node->down)
+        free_node(node->down);
+    if (node->next)
+        free_node(node->next);
     free(node);
 }
 
 void draw_node(Node *node)
 {
-    while (node != NULL)
+    while (node)
     {
         glPushMatrix();
         g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
         glMultMatrixd(node->Md->m);
-        if (node->instance != NULL)
+        if (node->instance)
             node->instance->draw_quads(node->instance, *(node->scale_factor));
-        if (node->down != NULL)
+        if (node->down)
             draw_node(node->down);
         glPopMatrix();
         node = node->next;
