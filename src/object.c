@@ -52,8 +52,36 @@ Node *init_node()
         return NULL;
 
     *(node->Md) = g3x_Identity();
+    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), (G3Xvector){0.5, 0.5, 0.5});
 
     return node;
+}
+
+void set_down_or_next(Node *node1, Node *node2, bool dOrN)
+{
+    node2->col = node1->col;
+    node2->mat[0] = node1->mat[0];
+    node2->mat[1] = node1->mat[1];
+    node2->mat[2] = node1->mat[2];
+    node2->mat[3] = node1->mat[3];
+
+    *(node2->Md) = g3x_Mat_x_Mat(*(node1->Md), *(node2->Md));
+    *(node2->scale_factor) = g3x_Mat_x_Vector(*(node2->Md), *(node2->scale_factor));
+
+    if (dOrN)
+    {
+        node1->down = node2;
+    }
+    else
+    {
+        node1->next = node2;
+    }
+}
+
+void scaled_Homothetie3d(Node *node, double x, double y, double z)
+{
+    *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_Homothetie3d(x, y, z));
+    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), *(node->scale_factor));
 }
 
 void free_node(Node *node)
@@ -64,6 +92,8 @@ void free_node(Node *node)
         free_node(node->down);
     if (node->next)
         free_node(node->next);
+    free(node->Md);
+    free(node->scale_factor);
     free(node);
 }
 

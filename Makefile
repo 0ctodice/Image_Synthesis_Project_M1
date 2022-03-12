@@ -50,13 +50,13 @@ LFLAGS = $(libG3X) $(DBG_LIB)
 INCLUDE = $(incG3X)
 SOURCE = src/
 
-NAME = projet
+NAME = scene1
 
-$(NAME): main.o sphere.o torus.o cylinder.o cone.o cube.o object.o
+$(NAME): scene1.o sphere.o torus.o cylinder.o cone.o cube.o object.o
 	$(CC) -o $(NAME) $^ $(LFLAGS)
 
-main.o: main.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c main.c
+scene1.o: scene1.c
+	$(CC) $(CFLAGS) $(INCLUDE) -c scene1.c
 
 sphere.o: $(SOURCE)sphere.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $(SOURCE)sphere.c
