@@ -45,7 +45,7 @@
 
 CC = gcc
 
-CFLAGS = -Wall -W -std=c17
+CFLAGS = -Wall -Wno-comment -W -std=c17
 LFLAGS = $(libG3X) $(DBG_LIB)
 INCLUDE = $(incG3X)
 SOURCE = src/
