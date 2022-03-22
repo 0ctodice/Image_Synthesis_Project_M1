@@ -39,11 +39,9 @@ Node *init_node()
     if (NULL == (node = malloc(sizeof(Node))))
         return NULL;
 
-    if (NULL == (node->down = malloc(sizeof(Node))))
-        return NULL;
-
-    if (NULL == (node->next = malloc(sizeof(Node))))
-        return NULL;
+    node->down = NULL;
+    node->next = NULL;
+    node->instance = NULL;
 
     if (NULL == (node->Md = malloc(sizeof(G3Xhmat))))
         return NULL;
@@ -52,7 +50,7 @@ Node *init_node()
         return NULL;
 
     *(node->Md) = g3x_Identity();
-    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), (G3Xvector){0.5, 0.5, 0.5});
+    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), (G3Xvector){0.3, 0.3, 0.3});
 
     return node;
 }
@@ -99,16 +97,14 @@ void free_node(Node *node)
 
 void draw_node(Node *node)
 {
-    while (node)
-    {
-        glPushMatrix();
-        g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
-        glMultMatrixd(node->Md->m);
-        if (node->instance)
-            node->instance->draw_quads(node->instance, *(node->scale_factor));
-        if (node->down)
-            draw_node(node->down);
-        glPopMatrix();
-        node = node->next;
-    }
+    g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
+    glPushMatrix();
+    glMultMatrixd(node->Md->m);
+    if (node->instance != NULL)
+        node->instance->draw_quads(node->instance, *(node->scale_factor));
+    if (node->down != NULL)
+        draw_node(node->down);
+    glPopMatrix();
+    if (node->next != NULL)
+        draw_node(node->next);
 }

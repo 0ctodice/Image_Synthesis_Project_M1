@@ -93,12 +93,12 @@ void draw_cylinder_quads(Shape *obj, G3Xvector scale_factor)
     normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
     normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm + j);
     normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm);
-    normVrtx3dv(obj->norm, obj->vrtx, (Nn - npas) * Nm);
+    normVrtx3dv(obj->norm, obj->vrtx, i * Nm);
 
     normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm + j);
     normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (Nn - 1) * Nm + j);
     normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (Nn - 1) * Nm);
-    normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + (Nn - npas) * Nm);
+    normVrtx3dv(obj->norm, obj->vrtx, (Nn * Nm) + i * Nm);
 
     int start = 2 * (Nm * Nn);
 

@@ -156,6 +156,8 @@ static void init(void)
 
   scaled_Homothetie3d(table, 0.75, 0.75, 0.75);
   scaled_Homothetie3d(table2, 0.75, 0.75, 0.75);
+  scaled_Homothetie3d(tabouret, 0.75, 0.75, 0.6);
+  scaled_Homothetie3d(tabouret2, 0.75, 0.75, 0.6);
 
   *(table2->Md) = g3x_Mat_x_Mat(*(table2->Md), g3x_RotationZ(-0.5));
   *(table->Md) = g3x_Mat_x_Mat(*(table->Md), g3x_RotationZ(0.785398));
@@ -166,7 +168,7 @@ static void init(void)
   *(table->Md) = g3x_Mat_x_Mat(*(table->Md), g3x_Translation3d(0., -2., 1.29));
   *(table2->Md) = g3x_Mat_x_Mat(*(table2->Md), g3x_Translation3d(0.6, 1.9, 1.29));
   *(tabouret->Md) = g3x_Mat_x_Mat(*(tabouret->Md), g3x_Translation3d(-1., -1., 1.04));
-  *(tabouret2->Md) = g3x_Mat_x_Mat(*(tabouret2->Md), g3x_Translation3d(0.5, -1.5, -1.22));
+  *(tabouret2->Md) = g3x_Mat_x_Mat(*(tabouret2->Md), g3x_Translation3d(0.5, -2., -1.978));
 }
 
 /* la fonction de contrôle : appelée 1 seule fois, juste après <init> */
