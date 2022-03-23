@@ -22,8 +22,8 @@
 
 void draw_cone_points(Shape *obj, G3Xvector scale_factor, double dcam)
 {
-    double nx = (scale_factor.x + (1. / dcam) * 10) / 11.;
-    double ny = (scale_factor.y + (1. / dcam) * 10) / 11.;
+    double nx = (scale_factor.x + (1. / dcam) * 10.) / 11.;
+    double ny = (scale_factor.y + (1. / dcam) * 10.) / 11.;
     double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
     mpas = MAX(1, mpas);
@@ -44,9 +44,9 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor, double dcam)
     int Np = obj->n2;
     int Nn = obj->n3;
 
-    double nx = (scale_factor.x + (1. / dcam) * 10) / 11.;
-    double ny = (scale_factor.y + (1. / dcam) * 10) / 11.;
-    double nz = (scale_factor.z + (1. / dcam) * 10) / 11.;
+    double nx = (scale_factor.x + (1. / dcam) * 10.) / 11.;
+    double ny = (scale_factor.y + (1. / dcam) * 10.) / 11.;
+    double nz = (scale_factor.z + (1. / dcam) * 10.) / 11.;
     double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
     mpas = MAX(1, mpas);

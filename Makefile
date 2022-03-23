@@ -50,13 +50,13 @@ LFLAGS = $(libG3X) $(DBG_LIB)
 INCLUDE = $(incG3X)
 SOURCE = src/
 
-NAME = scene1
+NAME = scene2
 
-$(NAME): scene1.o sphere.o torus.o cylinder.o cone.o cube.o object.o
+$(NAME): scene2.o sphere.o torus.o cylinder.o cone.o cube.o object.o
 	$(CC) -o $(NAME) $^ $(LFLAGS)
 
-scene1.o: scene1.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c scene1.c
+scene2.o: scene2.c
+	$(CC) $(CFLAGS) $(INCLUDE) -c scene2.c
 
 sphere.o: $(SOURCE)sphere.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c $(SOURCE)sphere.c
