@@ -20,9 +20,11 @@
 #include <object.h>
 #include <math.h>
 
-void draw_torus_points(Shape *obj, G3Xvector scale_factor)
+void draw_torus_points(Shape *obj, G3Xvector scale_factor, double dcam)
 {
-    double dxy = (scale_factor.x + scale_factor.y) / 2.;
+    double nx = (scale_factor.x + (1. / dcam) * 10) / 11.;
+    double ny = (scale_factor.y + (1. / dcam) * 10) / 11.;
+    double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
     mpas = MAX(1, mpas);
 
@@ -35,16 +37,20 @@ void draw_torus_points(Shape *obj, G3Xvector scale_factor)
     glEnd();
 }
 
-void draw_torus_quads(Shape *obj, G3Xvector scale_factor)
+void draw_torus_quads(Shape *obj, G3Xvector scale_factor, double dcam)
 {
     int i, j;
     int Nm = obj->n1;
     int Np = obj->n2;
 
-    double dxy = (scale_factor.x + scale_factor.y) / 2.;
+    double nx = (scale_factor.x + (1. / dcam) * 10) / 11.;
+    double ny = (scale_factor.y + (1. / dcam) * 10) / 11.;
+    double nz = (scale_factor.z + (1. / dcam) * 10) / 11.;
+
+    double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
     mpas = MAX(1, mpas);
-    int ppas = 1. / scale_factor.z;
+    int ppas = 1. / nz;
     ppas = MAX(1, ppas);
 
     glPointSize(1);

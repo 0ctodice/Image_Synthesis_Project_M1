@@ -50,7 +50,7 @@ Node *init_node()
         return NULL;
 
     *(node->Md) = g3x_Identity();
-    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), (G3Xvector){0.5, 0.5, 0.5});
+    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), (G3Xvector){1., 1., 1.});
 
     return node;
 }
@@ -76,7 +76,10 @@ void set_Homothetie3d(Node *node, double x, double y, double z)
     update_scale_factor(node, *(node->scale_factor));
 }
 
-void set_translation3d(Node *node, double x, double y, double z) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_Translation3d(x, y, z)); }
+void set_translation3d(Node *node, double x, double y, double z)
+{
+    *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_Translation3d(x, y, z));
+}
 
 void set_rotation3dX(Node *node, double angle_x) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_RotationX(angle_x)); }
 
@@ -95,6 +98,14 @@ void update_scale_factor(Node *node, G3Xvector daddy_scale_factor)
     {
         update_scale_factor(node->next, daddy_scale_factor);
     }
+}
+
+double compute_cam_node_distance(G3Xhmat Md)
+{
+    G3Xpoint node_pos = (G3Xpoint){Md.m[12], Md.m[13], Md.m[14]};
+    G3Xpoint cam_pos = *(g3x_GetCamera()->pos);
+
+    return sqrt(pow((node_pos.x - cam_pos.x), 2.) + pow((node_pos.y - cam_pos.y), 2.) + pow((node_pos.z - cam_pos.z), 2.));
 }
 
 void free_node(Node *node)
@@ -117,7 +128,7 @@ void draw_node(Node *node)
     glPushMatrix();
     glMultMatrixd(node->Md->m);
     if (node->instance != NULL)
-        node->instance->draw_quads(node->instance, *(node->scale_factor));
+        node->instance->draw_quads(node->instance, *(node->scale_factor), compute_cam_node_distance(*(node->Md)));
     if (node->down != NULL)
     {
         draw_node(node->down);
