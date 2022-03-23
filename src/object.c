@@ -50,36 +50,51 @@ Node *init_node()
         return NULL;
 
     *(node->Md) = g3x_Identity();
-    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), (G3Xvector){0.3, 0.3, 0.3});
+    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), (G3Xvector){0.5, 0.5, 0.5});
 
     return node;
 }
 
-void set_down_or_next(Node *node1, Node *node2, bool dOrN)
+void set_material_and_instance(Node *node, G3Xcolor col, double mat[], Shape *shape)
 {
-    node2->col = node1->col;
-    node2->mat[0] = node1->mat[0];
-    node2->mat[1] = node1->mat[1];
-    node2->mat[2] = node1->mat[2];
-    node2->mat[3] = node1->mat[3];
+    node->col = col;
+    node->mat[0] = mat[0];
+    node->mat[1] = mat[1];
+    node->mat[2] = mat[2];
+    node->mat[3] = mat[3];
 
-    *(node2->Md) = g3x_Mat_x_Mat(*(node1->Md), *(node2->Md));
-    *(node2->scale_factor) = g3x_Mat_x_Vector(*(node2->Md), *(node2->scale_factor));
-
-    if (dOrN)
-    {
-        node1->down = node2;
-    }
-    else
-    {
-        node1->next = node2;
-    }
+    node->instance = shape;
 }
 
-void scaled_Homothetie3d(Node *node, double x, double y, double z)
+void set_down(Node *node1, Node *node2) { node1->down = node2; }
+
+void set_next(Node *node1, Node *node2) { node1->next = node2; }
+
+void set_Homothetie3d(Node *node, double x, double y, double z)
 {
     *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_Homothetie3d(x, y, z));
-    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), *(node->scale_factor));
+    update_scale_factor(node, *(node->scale_factor));
+}
+
+void set_translation3d(Node *node, double x, double y, double z) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_Translation3d(x, y, z)); }
+
+void set_rotation3dX(Node *node, double angle_x) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_RotationX(angle_x)); }
+
+void set_rotation3dY(Node *node, double angle_y) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_RotationY(angle_y)); }
+
+void set_rotation3dZ(Node *node, double angle_z) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_RotationZ(angle_z)); }
+
+void update_scale_factor(Node *node, G3Xvector daddy_scale_factor)
+{
+    *(node->scale_factor) = g3x_Mat_x_Vector(*(node->Md), daddy_scale_factor);
+    if (node->down != NULL)
+    {
+        update_scale_factor(node->down, *(node->scale_factor));
+    }
+    if (node->next != NULL)
+    {
+        update_scale_factor(node->next, daddy_scale_factor);
+    }
 }
 
 void free_node(Node *node)
@@ -97,14 +112,19 @@ void free_node(Node *node)
 
 void draw_node(Node *node)
 {
+
     g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
     glPushMatrix();
     glMultMatrixd(node->Md->m);
     if (node->instance != NULL)
         node->instance->draw_quads(node->instance, *(node->scale_factor));
     if (node->down != NULL)
+    {
         draw_node(node->down);
+    }
     glPopMatrix();
     if (node->next != NULL)
+    {
         draw_node(node->next);
+    }
 }
