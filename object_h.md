@@ -47,8 +47,16 @@ void normVrtx3dv(G3Xvector *N, G3Xpoint *P, int i);
 void free_object(Shape *obj);
 
 Node *init_node();
-void set_down_or_next(Node *node, Node *down, bool dOrN);
-void scaled_Homothetie3d(Node *node, double x, double y, double z);
+void set_down(Node *node, Node *down);
+void set_next(Node *node, Node *down);
+void set_Homothetie3d(Node *node, double x, double y, double z);
+void set_translation3d(Node *node, double x, double y, double z);
+void set_rotation3dX(Node *node, double angle_x);
+void set_rotation3dY(Node *node, double angle_y);
+void set_rotation3dZ(Node *node, double angle_z);
+void update_scale_factor(Node *node, G3Xvector daddy_scale_factor);
+
+void set_material_and_instance(Node *node, G3Xcolor col, double mat[], Shape *shape);
 void draw_node(Node *node);
 void free_node(Node *node);
 
