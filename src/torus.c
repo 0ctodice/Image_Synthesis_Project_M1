@@ -22,8 +22,8 @@
 
 void draw_torus_points(Shape *obj, G3Xvector scale_factor, double dcam)
 {
-    double nx = (scale_factor.x + (1. / dcam) * 10.) / 11.;
-    double ny = (scale_factor.y + (1. / dcam) * 10.) / 11.;
+    double nx = (scale_factor.x * dcam);
+    double ny = (scale_factor.y * dcam);
     double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
     mpas = MAX(1, mpas);
@@ -43,9 +43,9 @@ void draw_torus_quads(Shape *obj, G3Xvector scale_factor, double dcam)
     int Nm = obj->n1;
     int Np = obj->n2;
 
-    double nx = (scale_factor.x + (1. / dcam) * 10.) / 11.;
-    double ny = (scale_factor.y + (1. / dcam) * 10.) / 11.;
-    double nz = (scale_factor.z + (1. / dcam) * 10.) / 11.;
+    double nx = (scale_factor.x * dcam);
+    double ny = (scale_factor.y * dcam);
+    double nz = (scale_factor.z * dcam);
 
     double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
@@ -137,11 +137,11 @@ Shape *load_torus()
         for (j = 0; j < Nm; j++)
         {
             double x = Rp * cos((double)j * teta);
-            double y = Rp * -sin((double)j * teta);
+            double y = Rp * sin((double)j * teta);
             double z = Zp;
 
             double nx = NRp * cos((double)j * teta);
-            double ny = NRp * -sin((double)j * teta);
+            double ny = NRp * sin((double)j * teta);
             double nz = NZp;
 
             obj->vrtx[i * Nm + j] = (G3Xpoint){x, y, z};

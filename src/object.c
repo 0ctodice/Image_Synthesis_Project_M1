@@ -76,10 +76,7 @@ void set_Homothetie3d(Node *node, double x, double y, double z)
     update_scale_factor(node, *(node->scale_factor));
 }
 
-void set_translation3d(Node *node, double x, double y, double z)
-{
-    *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_Translation3d(x, y, z));
-}
+void set_translation3d(Node *node, double x, double y, double z) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_Translation3d(x, y, z)); }
 
 void set_rotation3dX(Node *node, double angle_x) { *(node->Md) = g3x_Mat_x_Mat(*(node->Md), g3x_RotationX(angle_x)); }
 
@@ -105,7 +102,7 @@ double compute_cam_node_distance(G3Xhmat Md)
     G3Xpoint node_pos = (G3Xpoint){Md.m[12], Md.m[13], Md.m[14]};
     G3Xpoint cam_pos = *(g3x_GetCamera()->pos);
 
-    return sqrt(pow((node_pos.x - cam_pos.x), 2.) + pow((node_pos.y - cam_pos.y), 2.) + pow((node_pos.z - cam_pos.z), 2.));
+    return 1. / (sqrt(pow((node_pos.x - cam_pos.x), 2.) + pow((node_pos.y - cam_pos.y), 2.) + pow((node_pos.z - cam_pos.z), 2.)) / 5.);
 }
 
 void free_node(Node *node)
@@ -123,7 +120,6 @@ void free_node(Node *node)
 
 void draw_node(Node *node)
 {
-
     g3x_Material(node->col, node->mat[0], node->mat[1], node->mat[2], node->mat[3], 1.);
     glPushMatrix();
     glMultMatrixd(node->Md->m);

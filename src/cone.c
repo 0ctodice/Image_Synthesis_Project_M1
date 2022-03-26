@@ -22,8 +22,8 @@
 
 void draw_cone_points(Shape *obj, G3Xvector scale_factor, double dcam)
 {
-    double nx = (scale_factor.x + (1. / dcam) * 10.) / 11.;
-    double ny = (scale_factor.y + (1. / dcam) * 10.) / 11.;
+    double nx = (scale_factor.x * dcam);
+    double ny = (scale_factor.y * dcam);
     double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
     mpas = MAX(1, mpas);
@@ -44,9 +44,9 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor, double dcam)
     int Np = obj->n2;
     int Nn = obj->n3;
 
-    double nx = (scale_factor.x + (1. / dcam) * 10.) / 11.;
-    double ny = (scale_factor.y + (1. / dcam) * 10.) / 11.;
-    double nz = (scale_factor.z + (1. / dcam) * 10.) / 11.;
+    double nx = (scale_factor.x * dcam);
+    double ny = (scale_factor.y * dcam);
+    double nz = (scale_factor.z * dcam);
     double dxy = (nx + ny) / 2.;
     int mpas = 1. / dxy;
     mpas = MAX(1, mpas);
@@ -86,14 +86,14 @@ void draw_cone_quads(Shape *obj, G3Xvector scale_factor, double dcam)
     normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j);
     normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm + j);
     normVrtx3dv(obj->norm, obj->vrtx, (Nn - 1) * Nm);
-    normVrtx3dv(obj->norm, obj->vrtx, (Nn - npas) * Nm);
+    normVrtx3dv(obj->norm, obj->vrtx, i * Nm);
 
     int start = Nm * Nn;
 
-    for (i = 0; i < (int)Np - ppas; i += ppas)
+    for (i = 0; i < Np - ppas; i += ppas)
     {
 
-        for (j = 0; j < (int)Nm - mpas; j += mpas)
+        for (j = 0; j < Nm - mpas; j += mpas)
         {
 
             normVrtx3dv(obj->norm, obj->vrtx, i * Nm + j + start);
