@@ -29,8 +29,8 @@ typedef struct _shape_
     size_t n1, n2, n3;
     G3Xpoint *vrtx;
     G3Xvector *norm;
-    void (*draw_points)(struct _shape_ *, G3Xvector scale_factor);
-    void (*draw_quads)(struct _shape_ *, G3Xvector scale_factor);
+    void (*draw_points)(struct _shape_ *, G3Xvector scale_factor, double dcam);
+    void (*draw_quads)(struct _shape_ *, G3Xvector scale_factor, double dcam);
 } Shape;
 
 typedef struct _node_
@@ -55,33 +55,34 @@ void set_rotation3dX(Node *node, double angle_x);
 void set_rotation3dY(Node *node, double angle_y);
 void set_rotation3dZ(Node *node, double angle_z);
 void update_scale_factor(Node *node, G3Xvector daddy_scale_factor);
+double compute_cam_node_distance(G3Xhmat Md);
 
 void set_material_and_instance(Node *node, G3Xcolor col, double mat[], Shape *shape);
 void draw_node(Node *node);
 void free_node(Node *node);
 
-void draw_sphere_points(Shape *obj, G3Xvector scale_factor);
-void draw_sphere_quads(Shape *obj, G3Xvector scale_factor);
+void draw_sphere_points(Shape *obj, G3Xvector scale_factor, double dcam);
+void draw_sphere_quads(Shape *obj, G3Xvector scale_factor, double dcam);
 Shape *init_sphere();
 Shape *load_sphere();
 
-void draw_torus_points(Shape *obj, G3Xvector scale_factor);
-void draw_torus_quads(Shape *obj, G3Xvector scale_factor);
+void draw_torus_points(Shape *obj, G3Xvector scale_factor, double dcam);
+void draw_torus_quads(Shape *obj, G3Xvector scale_factor, double dcam);
 Shape *init_torus();
 Shape *load_torus();
 
-void draw_cylinder_points(Shape *obj, G3Xvector scale_factor);
-void draw_cylinder_quads(Shape *obj, G3Xvector scale_factor);
+void draw_cylinder_points(Shape *obj, G3Xvector scale_factor, double dcam);
+void draw_cylinder_quads(Shape *obj, G3Xvector scale_factor, double dcam);
 Shape *init_cylinder();
 Shape *load_cylinder();
 
-void draw_cone_points(Shape *obj, G3Xvector scale_factor);
-void draw_cone_quads(Shape *obj, G3Xvector scale_factor);
+void draw_cone_points(Shape *obj, G3Xvector scale_factor, double dcam);
+void draw_cone_quads(Shape *obj, G3Xvector scale_factor, double dcam);
 Shape *init_cone();
 Shape *load_cone();
 
-void draw_cube_points(Shape *obj, G3Xvector scale_factor);
-void draw_cube_quads(Shape *obj, G3Xvector scale_factor);
+void draw_cube_points(Shape *obj, G3Xvector scale_factor, double dcam);
+void draw_cube_quads(Shape *obj, G3Xvector scale_factor, double dcam);
 Shape *init_cube();
 Shape *load_cube();
 ```
