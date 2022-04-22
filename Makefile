@@ -2,7 +2,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wno-comment -W -std=c17
 LFLAGS = $(libG3X) $(DBG_LIB)
-INCLUDE = $(incG3X)
+INCLUDE = $(incG3X) -I../include
 SOURCE = src/
 
 ALL: scene1 scene2

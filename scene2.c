@@ -23,7 +23,6 @@ Node *gl_toupie()
     set_next(sphere, tore);
     set_next(tore, cylindre);
 
-    G3Xcolor col1 = (G3Xcolor){0.8, 0.8, 0.8, 1.};
     G3Xcolor col2 = (G3Xcolor){1., 0., 0., 1.};
     G3Xcolor col3 = (G3Xcolor){0., 1., 0.2, 1.};
 
@@ -111,7 +110,6 @@ Node *gl_tower()
     set_next(tore, cube);
     set_next(cube, toupie);
 
-    G3Xcolor col1 = (G3Xcolor){0.8, 0.8, 0.8, 1.};
     G3Xcolor col2 = (G3Xcolor){0., 0.8, 1., 1.};
 
     set_material_and_instance(tore, col2, mat, torus_can);
