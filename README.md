@@ -28,7 +28,7 @@ Afin de réaliser ces formes, nous avons implémenté leurs formules mathématiq
  
 ### 2. Arbres de scène & transformations géométriques
  
-Pour ce point du projet, tout ce qui a été demandé a été fait. Mais afin de faciliter la création des nœuds et des arbres, plusieurs fonctions ont été établi et un workflow c'est imposé :
+Pour ce point du projet, tout ce qui a été demandé a été fait. Mais afin de faciliter la création des nœuds et des arbres, plusieurs fonctions ont été établi et un workflow s'est imposé :
 1. Initialiser chaque nœud de l'arbre \
 *Extrait de la scène 1 - gl_damier*
 ```c
