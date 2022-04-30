@@ -123,12 +123,15 @@ Pour finir nous passons cette valeur dans les fonctions draw (`draw_point()`, `d
 
 ## SnapShot
 
-*Scene 1*
+### Scene 1
 ![table](./snapshot/Tables.png)
 ![table wireframe](./snapshot/table_wire.png)
-*Scene 2*
+## Scene 2
 ![tower](./snapshot/tower.png)
 ![tower wireframe](./snapshot/tower_wire.png)
+## Scene 3
+![brain](./snapshot/brain.png)
+![brain](./snapshot/brain_wire.png)
 
 ## Conclusion
 

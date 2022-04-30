@@ -5,7 +5,7 @@ LFLAGS = $(libG3X) $(DBG_LIB)
 INCLUDE = -I../INCLUDE $(incG3X)
 SOURCE = src/
 
-ALL: scene1 scene2
+ALL: scene1 scene2 scene3
 
 scene1: scene1.o sphere.o torus.o cylinder.o cone.o cube.o object.o
 	$(CC) -o scene1 $^ $(LFLAGS)
@@ -13,8 +13,14 @@ scene1: scene1.o sphere.o torus.o cylinder.o cone.o cube.o object.o
 scene2: scene2.o sphere.o torus.o cylinder.o cone.o cube.o object.o
 	$(CC) -o scene2 $^ $(LFLAGS)
 
+scene3: scene3.o sphere.o torus.o cylinder.o cone.o cube.o object.o
+	$(CC) -o scene3 $^ $(LFLAGS)
+
 scene1.o: scene1.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c scene1.c
+
+scene3.o: scene3.c
+	$(CC) $(CFLAGS) $(INCLUDE) -c scene3.c
 
 scene2.o: scene2.c
 	$(CC) $(CFLAGS) $(INCLUDE) -c scene2.c
@@ -39,6 +45,6 @@ object.o: $(SOURCE)object.c
 
 clean:
 	rm *.o
-	rm scene1 scene2
+	rm scene1 scene2 scene3
 
 
